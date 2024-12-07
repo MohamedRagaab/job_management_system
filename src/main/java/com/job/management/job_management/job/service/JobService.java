@@ -2,6 +2,8 @@ package com.job.management.job_management.job.service;
 
 import com.job.management.job_management.job.entity.Job;
 import com.job.management.job_management.job.entity.enums.JobStatus;
+import com.job.management.job_management.job.exception.JobDeletionException;
+import com.job.management.job_management.job.exception.JobNotFoundException;
 import com.job.management.job_management.job.repository.JobRepository;
 import com.job.management.job_management.job.util.JobConstants;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,19 +32,39 @@ public class JobService {
         this.jobRepository = jobRepository;
     }
 
+    public Job getJobById(Long id) {
+        return jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException("Job with ID " + id + " not found"));
+    }
+
+    public List<Job> getJobsByStatus(JobStatus status) {
+        return jobRepository.findByStatus(status);
+    }
+
     public Job createJob(Job job) {
         if (job.isImmediateExecution()) {
             job.setScheduledAt(ZonedDateTime.now());
-            executeJob(job); // Delegate to executeJob
+            executeJob(job);
         }
         return jobRepository.save(job);
     }
 
+    // Method to create batch jobs
+    public List<Job> createBatchJobs(List<Job> jobRequests) {
+        List<Job> jobs = jobRequests.stream().map(jobRequest -> {
+            if (jobRequest.isImmediateExecution()) {
+                jobRequest.setScheduledAt(ZonedDateTime.now());
+                executeJob(jobRequest);
+            }
+            return jobRepository.save(jobRequest);
+        }).collect(Collectors.toList());
+        return jobs;
+    }
+
     public void deleteJob(Long jobId) {
         Job job = jobRepository.findById(jobId)
-                .orElseThrow(() -> new RuntimeException("[deleteJob] Job not found"));
+                .orElseThrow(() -> new JobNotFoundException("Job with ID " + jobId + " not found"));
         if (job.getStatus() == JobStatus.RUNNING) {
-            throw new IllegalStateException("[deleteJob] Cannot delete a running job");
+            throw new JobDeletionException("Cannot delete a running job with ID " + jobId);
         }
         jobRepository.delete(job);
     }

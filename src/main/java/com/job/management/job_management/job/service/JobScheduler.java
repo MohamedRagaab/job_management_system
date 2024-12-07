@@ -1,7 +1,6 @@
 package com.job.management.job_management.job.service;
 
 import com.job.management.job_management.job.entity.Job;
-import com.job.management.job_management.job.util.JobConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -13,4 +13,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             "AND j.scheduledAt < CURRENT_TIMESTAMP AND j.attempts < 3 ORDER BY j.priority DESC")
     List<Job> findQueuedJobsReadyForExecution(@Param("status") JobStatus status,
                                               @Param("failedStatus") JobStatus failedStatus);
+
+    // Method to find jobs by status
+    List<Job> findByStatus(JobStatus status);
 }
