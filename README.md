@@ -8,6 +8,7 @@
 <img height="350px" src="https://github.com/user-attachments/assets/82f03d63-2de8-4043-8c0b-3de3961219d2">
 <hr/>
 </div>
+
    1. Functional Requirements 🔧
       - Create a Job: The system must allow the creation of a single Job, specifying details such as the Job type and schedule.
       - Create a Batch of Jobs: The system must allow creating multiple Jobs in a batch.
