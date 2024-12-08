@@ -26,7 +26,7 @@
 ## Languages and frameworks 📑
 * Java
 * Spring Boot
-* H2
+* H2 Database Engine
 ## Features 🥇
 * Easy scheduling jobs with a retry mechanism for failure.
 ## Cloning the repo and starting the app
@@ -50,7 +50,7 @@ docker run -d -p 8080:8080 --name job-management-container job-management-app
 ```
 ## Usage 🚀
 * Here is the list of the RESTful APIs
-    - Application:
+    - Job:
 
         - Create a new Job:
             ``` bash
