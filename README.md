@@ -5,17 +5,12 @@
   file content, or sending emails.
 * High-level system design
 <div align='center'>
-<img height="350px" src="">
+<img height="350px" src="https://github.com/user-attachments/assets/dc5c2685-fb88-4959-ba5d-73f93809323d">
 <hr/>
 </div>
-* Sequence Diagram
-<div align='center'>
-<img height="350px" src="">
-<hr/>
-</div>
-
 ## Languages and frameworks 📑
-* Java Spring Boot
+* Java
+* Spring Boot
 * H2
 ## Features 🥇
 * Easy scheduling jobs with a retry mechanism for failure.
