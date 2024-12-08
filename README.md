@@ -71,7 +71,7 @@ docker run -d -p 8080:8080 --name job-management-container job-management-app
             --header 'Content-Type: application/json' \
             --data '[
             {
-            "name": "job 3",
+            "name": "job 1",
             "description": "This is the first task..",
             "scheduledAt": "2024-11-06T15:59:29Z",
             "executableJarFilePath": "./executableTasks/HiSafeyTask.jar",
@@ -79,10 +79,10 @@ docker run -d -p 8080:8080 --name job-management-container job-management-app
             "priority": 2
             },
             {
-            "name": "job 3",
-            "description": "This is the first task..",
+            "name": "job 2",
+            "description": "This is the second task..",
             "scheduledAt": "2024-11-06T15:59:29Z",
-            "executableJarFilePath": "./executableTasks/HiSafeyTask.jar",
+            "executableJarFilePath": "./executableTasks/TaskThatTakesFiveSeconds.jar",
             "immediateExecution": true,
             "priority": 2
             }
@@ -90,16 +90,21 @@ docker run -d -p 8080:8080 --name job-management-container job-management-app
             ```
         - Delete a Job:
             ``` bash
-            curl --location --request DELETE 'http://localhost:8080/jobs/1'
+            curl --location --request DELETE 'http://localhost:8080/jobs/{ID}'
             ```
         - Get a Job By ID:
            ``` bash
-           curl --location 'http://localhost:8080/jobs/1'
+           curl --location 'http://localhost:8080/jobs/{ID}'
            ```
         - List Jobs by status:
            ``` bash
            curl --location 'http://localhost:8080/jobs/status/SUCCESS'
            ```
+        - Execute a Job By ID:
+           ``` bash
+           curl --location --request POST 'http://localhost:8080/jobs/{ID}/execute'
+           ```
+           
 ## Assumptions 📋
 - Assume a maximum of 10 seconds delay to run the job after the scheduled date
    - This assumes the scheduling system (such as Spring's @Scheduled annotation) is fast and efficient enough to meet this requirement. 
